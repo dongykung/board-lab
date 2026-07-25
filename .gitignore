@@ -1,0 +1,12 @@
+## .NET build artifacts
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+## User-specific / secrets
+appsettings.*.local.json
+*.user
+
+## OS
+.DS_Store
