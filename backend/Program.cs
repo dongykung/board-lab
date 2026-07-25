@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<BoardDbContext>(options =>
     options.UseSqlite("Data Source=board.db"));
+builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IPostService, PostService>();
 
