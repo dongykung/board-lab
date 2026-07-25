@@ -4,6 +4,11 @@ obj/
 [Bb]in/
 [Oo]bj/
 
+## Local SQLite database
+*.db
+*.db-shm
+*.db-wal
+
 ## User-specific / secrets
 appsettings.*.local.json
 *.user
