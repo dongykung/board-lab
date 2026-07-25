@@ -26,7 +26,8 @@ public class PostService : IPostService
             CreatedAt = DateTime.UtcNow,
         };
 
-        await _db.Posts.AddAsync(post);
+        await _db.Posts.AddAsync(post); 
+        await _db.SaveChangesAsync();
         return PostResponse.FromEntity(post);
     }
 
