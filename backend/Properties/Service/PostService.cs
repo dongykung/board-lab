@@ -18,6 +18,7 @@ public class PostService : IPostService
 
     public async Task<PostResponse> CreateAsync(CreatePostRequest request)
     {
+        _logger.LogInformation("Post {Title} created by {AuthorName}", request.Title, request.AuthorName);
         Post post = new Post
         {
             Title = request.Title,
@@ -35,8 +36,13 @@ public class PostService : IPostService
     public async Task<PostResponse?> GetByIdAsync(int id)
     {
         Post? post = await _db.Posts.FindAsync(id);
-        if (post is null) return null;
+        if (post is null)
+        {
+            _logger.LogWarning("Not Exist Post {id}", id);
+            return null;
+        }
         post.ViewCount++;
+        _logger.LogInformation("Post{id} ViewCount increase: {ViewCount}", id, post.ViewCount);
         await _db.SaveChangesAsync();
 
         return PostResponse.FromEntity(post);
@@ -60,6 +66,7 @@ public class PostService : IPostService
         post.UpdatedAt = DateTime.UtcNow;
         
         await _db.SaveChangesAsync();
+        _logger.LogInformation("Update Post id={id}", post.Id);
 
         return PostResponse.FromEntity(post);
     }
@@ -70,6 +77,7 @@ public class PostService : IPostService
         if (post is null) return false;
         _db.Posts.Remove(post);
         await _db.SaveChangesAsync();
+        _logger.LogInformation("Delete Post id={id}", id);
         return true;
     }
 }
