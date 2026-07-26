@@ -10,7 +10,7 @@ POST {{backend_HostAddress}}/api/posts
 Content-Type: application/json
 
 {
-  "title": "첫 번째 글",
+  "title": "테스트 글",
   "content": "board-lab 게시판 API 테스트입니다.",
   "authorName": "김동경"
 }
@@ -41,13 +41,9 @@ GET {{backend_HostAddress}}/api/posts/{{createPost.response.body.id}}
 Accept: application/json
 
 
-###############################################################
-# 아래는 id 를 직접 지정해서 테스트하고 싶을 때 사용하세요.
-# (Visual Studio 의 .http 편집기는 응답 참조 {{createPost.response.body.id}}
-#  를 지원하지 않으므로 이쪽을 쓰시면 됩니다.)
-###############################################################
 
-@postId = 1
+
+@postId = 8
 
 ### 단건 조회 (id 직접 지정)
 GET {{backend_HostAddress}}/api/posts/{{postId}}
