@@ -1,11 +1,32 @@
 using BoardApi.Data;
 using BoardApi.Services;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Formatting.Compact;
+
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft.AspNetCore", Serilog.Events.LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .Enrich.WithMachineName()
+    .Enrich.WithThreadId()
+    .Enrich.WithThreadName()
+    .WriteTo.Console()
+    .WriteTo.File(
+        formatter: new CompactJsonFormatter(),
+        path: "Logs/board-api-.json",
+        rollingInterval: RollingInterval.Day
+    )
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<BoardDbContext>(options =>
     options.UseSqlite("Data Source=board.db"));
+
+builder.Host.UseSerilog();
+
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IPostService, PostService>();
@@ -19,6 +40,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.MapControllers();
 
