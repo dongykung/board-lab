@@ -9,6 +9,9 @@ obj/
 *.db-shm
 *.db-wal
 
+## Log output
+Logs/
+
 ## User-specific / secrets
 appsettings.*.local.json
 *.user
