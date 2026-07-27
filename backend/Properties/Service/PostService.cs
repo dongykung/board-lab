@@ -1,5 +1,6 @@
 using BoardApi.Data;
 using BoardApi.Dtos;
+using BoardApi.Exceptions;
 using BoardApi.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,14 +34,9 @@ public class PostService : IPostService
     }
 
 
-    public async Task<PostResponse?> GetByIdAsync(int id)
+    public async Task<PostResponse> GetByIdAsync(int id)
     {
-        Post? post = await _db.Posts.FindAsync(id);
-        if (post is null)
-        {
-            _logger.LogWarning("Not Exist Post {id}", id);
-            return null;
-        }
+        Post post = await _db.Posts.FindAsync(id) ?? throw new PostNotFoundException(id);
         post.ViewCount++;
         _logger.LogInformation("Post{id} ViewCount increase: {ViewCount}", id, post.ViewCount);
         await _db.SaveChangesAsync();
@@ -56,10 +52,9 @@ public class PostService : IPostService
             .ToListAsync();
     }
 
-    public async Task<PostResponse?> UpdateAsync(int id, UpdatePostRequest request)
+    public async Task<PostResponse> UpdateAsync(int id, UpdatePostRequest request)
     {
-        Post? post = await _db.Posts.FindAsync(id);
-        if (post is null) return null;
+        Post post = await _db.Posts.FindAsync(id) ?? throw new PostNotFoundException(id);
 
         post.Title = request.Title;
         post.Content = request.Content;
@@ -73,8 +68,7 @@ public class PostService : IPostService
 
         public async Task<bool> DeleteAsync(int id)
     {
-        var post = await _db.Posts.FindAsync(id);
-        if (post is null) return false;
+        var post = await _db.Posts.FindAsync(id) ?? throw new PostNotFoundException(id);
         _db.Posts.Remove(post);
         await _db.SaveChangesAsync();
         _logger.LogInformation("Delete Post id={id}", id);

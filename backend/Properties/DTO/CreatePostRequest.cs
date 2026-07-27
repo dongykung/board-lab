@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace BoardApi.Dtos;
 
 public record CreatePostRequest(
-    string Title,
-    string Content,
-    string AuthorName
+    [Required, MaxLength(100)] string Title,
+    [Required] string Content,
+    [Required, MaxLength(30)] string AuthorName
 );

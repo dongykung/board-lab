@@ -1,10 +1,12 @@
 using BoardApi.Data;
+using BoardApi.Exceptions;
 using BoardApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Formatting.Compact;
 
 
+// Log
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
     .MinimumLevel.Override("Microsoft.AspNetCore", Serilog.Events.LogEventLevel.Warning)
@@ -25,6 +27,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BoardDbContext>(options =>
     options.UseSqlite("Data Source=board.db"));
 
+// Exception
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+// Log
 builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
@@ -40,7 +47,12 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+// Log
 app.UseSerilogRequestLogging();
+
+// Exception
+app.UseExceptionHandler();
+
 app.UseHttpsRedirection();
 app.MapControllers();
 
