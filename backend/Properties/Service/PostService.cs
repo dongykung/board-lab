@@ -19,7 +19,6 @@ public class PostService : IPostService
 
     public async Task<PostResponse> CreateAsync(CreatePostRequest request)
     {
-        _logger.LogInformation("Post {Title} created by {AuthorName}", request.Title, request.AuthorName);
         Post post = new Post
         {
             Title = request.Title,
@@ -30,6 +29,8 @@ public class PostService : IPostService
 
         await _db.Posts.AddAsync(post); 
         await _db.SaveChangesAsync();
+        _logger.LogInformation("Post {Title} created by {AuthorName}", request.Title, request.AuthorName);
+
         return PostResponse.FromEntity(post);
     }
 
@@ -38,8 +39,8 @@ public class PostService : IPostService
     {
         Post post = await _db.Posts.FindAsync(id) ?? throw new PostNotFoundException(id);
         post.ViewCount++;
-        _logger.LogInformation("Post{id} ViewCount increase: {ViewCount}", id, post.ViewCount);
         await _db.SaveChangesAsync();
+        _logger.LogInformation("Post{id} ViewCount increase: {ViewCount}", id, post.ViewCount);
 
         return PostResponse.FromEntity(post);
     }

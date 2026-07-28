@@ -5,24 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Formatting.Compact;
 
-
-// Log
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Information()
-    .MinimumLevel.Override("Microsoft.AspNetCore", Serilog.Events.LogEventLevel.Warning)
-    .Enrich.FromLogContext()
-    .Enrich.WithMachineName()
-    .Enrich.WithThreadId()
-    .Enrich.WithThreadName()
-    .WriteTo.Console()
-    .WriteTo.File(
-        formatter: new CompactJsonFormatter(),
-        path: "Logs/board-api-.json",
-        rollingInterval: RollingInterval.Day
-    )
-    .CreateLogger();
-
 var builder = WebApplication.CreateBuilder(args);
+
+// Log1
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
 
 builder.Services.AddDbContext<BoardDbContext>(options =>
     options.UseSqlite("Data Source=board.db"));
