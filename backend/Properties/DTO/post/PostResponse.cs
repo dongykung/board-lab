@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 namespace BoardApi.Dtos;
 
 public record PostResponse(
@@ -5,11 +7,12 @@ public record PostResponse(
     string Title,
     string Content,
     string AuthorName,
+    int userId,
     int ViewCount,
     DateTime CreatedAt,
     DateTime? UpdatedAt
 )
 {
-    public static PostResponse FromEntity(Models.Post post) =>
-        new(post.Id, post.Title, post.Content, post.AuthorName, post.ViewCount, post.CreatedAt, post.UpdatedAt);
+    public static PostResponse FromEntity(Models.Post post, Models.User user) =>
+        new(post.Id, post.Title, post.Content, user.Name, user.Id, post.ViewCount, post.CreatedAt, post.UpdatedAt);
 }

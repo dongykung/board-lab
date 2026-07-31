@@ -4,6 +4,5 @@ namespace BoardApi.Dtos;
 
 public record CreatePostRequest(
     [Required, MaxLength(100)] string Title,
-    [Required] string Content,
-    [Required, MaxLength(30)] string AuthorName
+    [Required] string Content
 );

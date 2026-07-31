@@ -23,15 +23,14 @@ public class PostService : IPostService
         {
             Title = request.Title,
             Content = request.Content,
-            AuthorName = request.AuthorName,
             CreatedAt = DateTime.UtcNow,
         };
 
-        await _db.Posts.AddAsync(post); 
+        await _db.Posts.AddAsync(post);
         await _db.SaveChangesAsync();
-        _logger.LogInformation("Post {Title} created by {AuthorName}", request.Title, request.AuthorName);
-
-        return PostResponse.FromEntity(post);
+        _logger.LogInformation("Post {Title} created by", request.Title);
+        User user = new User { Id = 1, LoginId = "test", Password = "123", Name = "동경" };
+        return PostResponse.FromEntity(post, user);
     }
 
 
@@ -41,15 +40,16 @@ public class PostService : IPostService
         post.ViewCount++;
         await _db.SaveChangesAsync();
         _logger.LogInformation("Post{id} ViewCount increase: {ViewCount}", id, post.ViewCount);
-
-        return PostResponse.FromEntity(post);
+        User user = new User { Id = 1, LoginId = "test", Password = "123", Name = "동경" };
+        return PostResponse.FromEntity(post, user);
     }
 
     public async Task<List<PostResponse>> GetListAsync()
     {
+        User user = new User { Id = 1, LoginId = "test", Password = "123", Name = "동경" };
         return await _db.Posts
             .OrderByDescending(p => p.CreatedAt)
-            .Select(p => PostResponse.FromEntity(p))
+            .Select(p => PostResponse.FromEntity(p, user))
             .ToListAsync();
     }
 
@@ -60,14 +60,14 @@ public class PostService : IPostService
         post.Title = request.Title;
         post.Content = request.Content;
         post.UpdatedAt = DateTime.UtcNow;
-        
+
         await _db.SaveChangesAsync();
         _logger.LogInformation("Update Post id={id}", post.Id);
-
-        return PostResponse.FromEntity(post);
+        User user = new User { Id = 1, LoginId = "test", Password = "123", Name = "동경" };
+        return PostResponse.FromEntity(post, user);
     }
 
-        public async Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
         var post = await _db.Posts.FindAsync(id) ?? throw new PostNotFoundException(id);
         _db.Posts.Remove(post);
