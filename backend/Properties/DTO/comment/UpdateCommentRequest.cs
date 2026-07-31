@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BoardApi.Dtos;
 
-public record CreateCommentRequest(
-    [Required] int postId,
+public record UpdateCommentRequest(
     [Required] string Content
 );

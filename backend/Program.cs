@@ -25,7 +25,7 @@ builder.Host.UseSerilog();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IPostService, PostService>();
-
+builder.Services.AddScoped<ICommentService, CommentService>();
 
 var app = builder.Build();
 
