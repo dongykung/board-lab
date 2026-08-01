@@ -1,0 +1,86 @@
+/* Primitives — raw values, never used directly outside this file */
+:root {
+  --gray-50: #fafafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #737b8a;
+  --gray-600: #525b6b;
+  --gray-700: #3c4352;
+  --gray-800: #252a36;
+  --gray-900: #11141b;
+
+  --indigo-50: #eeeeff;
+  --indigo-100: #e0e1fe;
+  --indigo-200: #c8c8fd;
+  --indigo-300: #a5a4fb;
+  --indigo-400: #837ef6;
+  --indigo-500: #635af1;
+  --indigo-600: #4f43e5;
+  --indigo-700: #4437cb;
+  --indigo-800: #382fa4;
+  --indigo-900: #312b85;
+
+  --green-500: #22b14c;
+  --green-600: #168b38;
+  --red-500: #ef4444;
+  --red-600: #cd2727;
+  --amber-500: #f59e0b;
+  --amber-600: #d97706;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+
+  --white: #ffffff;
+  --black: #000000;
+}
+
+/* Semantic — Light (default) */
+:root {
+  --color-bg-canvas: var(--gray-50);
+  --color-bg-surface: var(--white);
+  --color-bg-surface-secondary: var(--gray-100);
+
+  --color-text-primary: var(--gray-900);
+  --color-text-secondary: var(--gray-600);
+  --color-text-tertiary: var(--gray-500);
+  --color-text-disabled: var(--gray-300);
+  --color-text-on-brand: var(--white);
+
+  --color-border-default: var(--gray-200);
+  --color-border-subtle: var(--gray-100);
+
+  --color-brand-default: var(--indigo-600);
+  --color-brand-hover: var(--indigo-700);
+  --color-brand-pressed: var(--indigo-800);
+
+  --color-status-success: var(--green-600);
+  --color-status-error: var(--red-600);
+  --color-status-warning: var(--amber-600);
+  --color-status-info: var(--blue-600);
+}
+
+/* Semantic — Dark (toggle by setting data-theme="dark" on <html>) */
+:root[data-theme='dark'] {
+  --color-bg-canvas: var(--gray-900);
+  --color-bg-surface: var(--gray-800);
+  --color-bg-surface-secondary: var(--gray-700);
+
+  --color-text-primary: var(--gray-50);
+  --color-text-secondary: var(--gray-300);
+  --color-text-tertiary: var(--gray-400);
+  --color-text-disabled: var(--gray-600);
+  --color-text-on-brand: var(--white);
+
+  --color-border-default: var(--gray-700);
+  --color-border-subtle: var(--gray-800);
+
+  --color-brand-default: var(--indigo-400);
+  --color-brand-hover: var(--indigo-300);
+  --color-brand-pressed: var(--indigo-200);
+
+  --color-status-success: var(--green-500);
+  --color-status-error: var(--red-500);
+  --color-status-warning: var(--amber-500);
+  --color-status-info: var(--blue-500);
+}

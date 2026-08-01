@@ -1,0 +1,35 @@
+:root {
+  --font-family-base: 'Pretendard', 'Inter', -apple-system, sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --font-size-display: 32px;
+  --line-height-display: 40px;
+
+  --font-size-heading-1: 24px;
+  --line-height-heading-1: 32px;
+
+  --font-size-heading-2: 20px;
+  --line-height-heading-2: 28px;
+
+  --font-size-heading-3: 16px;
+  --line-height-heading-3: 24px;
+
+  --font-size-body-large: 16px;
+  --line-height-body-large: 24px;
+
+  --font-size-body-medium: 14px;
+  --line-height-body-medium: 20px;
+
+  --font-size-body-small: 13px;
+  --line-height-body-small: 18px;
+
+  --font-size-caption: 12px;
+  --line-height-caption: 16px;
+
+  --font-size-label-button: 14px;
+  --line-height-label-button: 20px;
+}
