@@ -1,16 +1,27 @@
 using BoardApi.Dtos;
+using BoardApi.Data;
+using BoardApi.Models;
 
 namespace BoardApi.Services;
 
 public class CommentService : ICommentService
 {
-    public Task<CommentResponse> CreateAsync(CreateCommentRequest request)
+    private readonly BoardDbContext _db;
+    private readonly ILogger<CommentService> _logger;
+
+    public CommentService(BoardDbContext db, ILogger<CommentService> logger)
     {
-        throw new NotImplementedException();
+        _db = db;
+        _logger = logger;
     }
 
-    public Task<bool> DeleteAsync(int id)
+    public Task<CommentResponse> CreateAsync(CreateCommentRequest request)
     {
+        Comment comment = new Comment
+        {
+            PostId = request.postId,
+            Content = request.Content,
+        };
         throw new NotImplementedException();
     }
 
@@ -25,6 +36,11 @@ public class CommentService : ICommentService
     }
 
     public Task<CommentResponse> UpdateAsync(int id, UpdateCommentRequest request)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> DeleteAsync(int id)
     {
         throw new NotImplementedException();
     }

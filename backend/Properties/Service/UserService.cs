@@ -20,35 +20,31 @@ public class UserService : IUserService
 
     public async Task<UserResponse> RegisterAsync(RegisterRequest request)
     {
-        bool loginIdTaken = await _db.Users.AnyAsync(u => u.LoginId == request.LoginId);
-        if (loginIdTaken)
+        if (await _db.Users.AnyAsync(u => u.LoginId == request.LoginId))
         {
             throw new DuplicateLoginIdException(request.LoginId);
         }
-
         User user = new User
         {
-            Name = request.Name,
             LoginId = request.LoginId,
             Password = PasswordHasher.Hash(request.Password),
+            Name = request.Name
         };
-
         await _db.Users.AddAsync(user);
         await _db.SaveChangesAsync();
-        _logger.LogInformation("User {LoginId} registered", user.LoginId);
-
+        _logger.LogInformation("User registered: {LoginId}", user.LoginId);
         return UserResponse.FromEntity(user);
     }
 
     public async Task<UserResponse> LoginAsync(LoginRequest request)
     {
         User? user = await _db.Users.SingleOrDefaultAsync(u => u.LoginId == request.LoginId);
+
         if (user is null || !PasswordHasher.Verify(request.Password, user.Password))
         {
             throw new InvalidCredentialsException();
         }
-
-        _logger.LogInformation("User {LoginId} logged in", user.LoginId);
+        _logger.LogInformation("User logged in: {LoginId}", user.LoginId);
         return UserResponse.FromEntity(user);
     }
 }
