@@ -34,6 +34,11 @@ function handleClick(event) {
 .btn {
   cursor: pointer;
 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  
   &:disabled {
     cursor: not-allowed;
     opacity: 0.5;

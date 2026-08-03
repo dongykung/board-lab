@@ -1,5 +1,5 @@
 <template>
-    <RegisterView/>
+    <LoginView/>
 </template>
 
 <script setup>

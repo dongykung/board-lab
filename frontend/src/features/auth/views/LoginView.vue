@@ -21,10 +21,12 @@
         />
       </div>
 
-      <BaseButton variant="primary" @click="handleLogin">로그인</BaseButton>
+      <BaseButton variant="primary" @click="handleLogin" :disabled="loading">
+        <span v-if="loading" class="spinner" aria-hidden="true"></span>
+        {{ loading ? "로그인 중..." : "로그인" }}
+      </BaseButton>
 
-      <BaseButton variant="text">계정이 없으신가요? 회원가입</BaseButton>
-
+      <BaseButton variant="text" :disabled="loading">계정이 없으신가요? 회원가입</BaseButton>
     </div>
   </div>
 </template>
@@ -32,13 +34,19 @@
 <script setup>
 import { ref } from "vue";
 import BaseButton from "@/design-system/BaseButton.vue";
+import { userAuth } from "../composable/userAuth";
 
+const { login, loading, error } = userAuth();
 const loginId = ref("");
 const password = ref("");
 
-function handleLogin() {
-  console.log("로그인 시도:", loginId.value, password.value);
-  // 여기에 로그인 로직을 추가하세요.
+async function handleLogin() {
+  if (!loginId.value || !password.value) {
+    alert('Id와 비밀번호 모두 입력해 주세요.');
+    return;
+  }
+  const result = await login(loginId.value, password.value);
+  if (!result) return;
 }
 </script>
 
@@ -77,5 +85,17 @@ function handleLogin() {
     border-radius: var(--radius-sm);
     font-size: var(--font-size-body-medium);
   }
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 </style>
