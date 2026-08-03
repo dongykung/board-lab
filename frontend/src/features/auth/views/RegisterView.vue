@@ -1,15 +1,16 @@
 <template>
   <div class="screen">
     <div class="card">
-      <h1>게시판 로그인</h1>
+      <h1>회원가입</h1>
+
+      <div class="field">
+        <label>이름</label>
+        <input type="text" placeholder="이름을 입력하세요" v-model="userName" />
+      </div>
 
       <div class="field">
         <label>아이디</label>
-        <input
-          type="text"
-          placeholder="아이디를 입력하세요"
-          v-model="loginId"
-        />
+        <input type="text" placeholder="아이디를 입력하세요" v-model="userId" />
       </div>
 
       <div class="field">
@@ -17,35 +18,36 @@
         <input
           type="password"
           placeholder="비밀번호를 입력하세요"
-          v-model="password"
+          v-model="userPassword"
         />
       </div>
 
-      <BaseButton variant="primary" @click="handleLogin">로그인</BaseButton>
-
-      <BaseButton variant="text">계정이 없으신가요? 회원가입</BaseButton>
-
+      <BaseButton @click="handleRegister">회원가입</BaseButton>
+      <BaseButton variant="text" @click=""
+        >이미 계정이 있으신가요? 로그인</BaseButton
+      >
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import BaseButton from "@/design-system/BaseButton.vue";
+import BaseButton from "../../../design-system/BaseButton.vue";
 
-const loginId = ref("");
-const password = ref("");
+const userName = ref("");
+const userId = ref("");
+const userPassword = ref("");
 
-function handleLogin() {
-  console.log("로그인 시도:", loginId.value, password.value);
-  // 여기에 로그인 로직을 추가하세요.
-}
+function handleRegister() {}
+
+function handleAlreadyAccount() {}
 </script>
 
 <style lang="scss" scoped>
 .screen {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: var(--color-bg-canvas);
