@@ -16,6 +16,18 @@ Log.Logger = new LoggerConfiguration()
 builder.Services.AddDbContext<BoardDbContext>(options =>
     options.UseSqlite("Data Source=board.db"));
 
+const string FrontendCorsPolicy = "FrontendCorsPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(FrontendCorsPolicy, policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 // Exception
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -65,6 +77,9 @@ app.UseSerilogRequestLogging();
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
+
+// 순서 중요: CORS는 인증/인가 미들웨어보다 먼저 호출되어야 함
+app.UseCors(FrontendCorsPolicy);
 
 // 순서 중요: 인증 미들웨어는 반드시 Authorization 미들웨어보다 먼저 호출되어야 함
 // 순서 중요: MapControllers()는 반드시 UseAuthentication()과 UseAuthorization() 이후에 호출되어야 함

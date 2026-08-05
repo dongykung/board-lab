@@ -2,24 +2,24 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
 export class HttpError extends Error {
     constructor(status, body) {
-        super('HTTP ${status}');
+        super(`HTTP ${status}`);
         this.status = status;
         this.body = body;
     }
 }
 
 async function request(path, options = {}) {
-    const res = await fetch('${BASE_URL}${path}', {
+    const res = await fetch(`${BASE_URL}${path}`, {
         credentials: 'include',
         headers: {
-            'Content-Type:': 'application/json',
+            'Content-Type': 'application/json',
             ...options.headers,
         },
         ...options
     });
 
     if (!res.ok) {
-        throw new HttpError(res.status, await safeParse)
+        throw new HttpError(res.status, await safeParseBody(res))
     }
 
     if (res.status === 204) return null;
