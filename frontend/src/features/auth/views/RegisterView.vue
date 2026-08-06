@@ -22,8 +22,11 @@
         />
       </div>
 
-      <BaseButton @click="handleRegister">회원가입</BaseButton>
-      <BaseButton variant="text" @click=""
+      <BaseButton @click="handleRegister" :disabled="loading">
+        {{ loading ? "회원가입 중..." : "회원가입" }}</BaseButton
+      >
+      {{ error }}
+      <BaseButton variant="text" @click="handleAlreadyAccount"
         >이미 계정이 있으신가요? 로그인</BaseButton
       >
     </div>
@@ -33,14 +36,36 @@
 <script setup>
 import { ref } from "vue";
 import BaseButton from "../../../design-system/BaseButton.vue";
+import { userAuth } from "../composable/userAuth.js";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
+const { loading, error, register } = userAuth();
 const userName = ref("");
 const userId = ref("");
 const userPassword = ref("");
 
-function handleRegister() {}
+async function handleRegister() {
+  if (!userName.value || !userId.value || !userPassword.value) {
+    alert("모든 정보를 입력해 주세요");
+    return;
+  }
+  const payload = {
+    userName: userName.value,
+    userId: userId.value,
+    userPassword: userPassword.value,
+  };
 
-function handleAlreadyAccount() {}
+  const result = await register(payload);
+  if (!result) return;
+
+  router.replace({ name: "login" });
+}
+
+function handleAlreadyAccount() {
+  router.replace( {name: 'login' });
+}
+
 </script>
 
 <style lang="scss" scoped>

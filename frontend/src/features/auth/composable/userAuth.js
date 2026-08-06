@@ -18,11 +18,11 @@ export function userAuth() {
         }
     }
 
-    function login(loginId, password) {
+    async function login(loginId, password) {
         return withState(() => loginApi(loginId, password))
     }
 
-    function register(payload) {
+    async function register(payload) {
         return withState(() => registerApi(payload))
     }
 

@@ -25,8 +25,8 @@
         <span v-if="loading" class="spinner" aria-hidden="true"></span>
         {{ loading ? "로그인 중..." : "로그인" }}
       </BaseButton>
-
-      <BaseButton variant="text" :disabled="loading">계정이 없으신가요? 회원가입</BaseButton>
+      {{ error }}
+      <BaseButton variant="text" :disabled="loading" @click="goToRegister">계정이 없으신가요? 회원가입</BaseButton>
     </div>
   </div>
 </template>
@@ -35,7 +35,9 @@
 import { ref } from "vue";
 import BaseButton from "@/design-system/BaseButton.vue";
 import { userAuth } from "../composable/userAuth";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const { login, loading, error } = userAuth();
 const loginId = ref("");
 const password = ref("");
@@ -47,6 +49,10 @@ async function handleLogin() {
   }
   const result = await login(loginId.value, password.value);
   if (!result) return;
+}
+
+function goToRegister() {
+  router.push({ name: "register" });
 }
 </script>
 
